@@ -1,0 +1,33 @@
+1.
+db.hotel.find(
+  {'likes': {$gt: 50}}
+)
+
+2.
+db.hotel.find(
+  {$and: [{'address.city': 'Pune'}, {'cuisines': 'Chinese'}]}
+)
+
+3.
+db.hotel.distinct("address.city")
+
+4.
+db.hotel.countDocuments(
+  {'address.city': {$in: ['Mumbai', 'Pune', 'Goa']}}
+)
+
+5.
+db.hotel.find().sort({'likes':-1}).limit(5)
+
+6.
+db.hotel.find({'cuisines.1': {$exists: true}}, {'name':1})
+
+7.
+db.hotel.find(
+  {$and: [{'cuisines': 'Italian'}, {'cuisines': 'Punjabi'}, {'cuisines': 'Chinese'}]}
+)
+
+8.
+db.hotel.find(
+  {$nor: [{'rooms.type': 'AC'}, {'rooms.type': 'Non-AC'}]}
+)

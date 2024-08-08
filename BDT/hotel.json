@@ -1,0 +1,124 @@
+[{
+  "_id": {
+    "$oid": "669f246116efc73ff3a1448e"
+  },
+  "id": 1,
+  "name": "Heritage",
+  "type": "continental",
+  "rating": 5,
+  "address": {
+    "area": "Kondhwa",
+    "city": "Pune",
+    "pincode": 411048
+  },
+  "rooms": [
+    {
+      "room_no": 101,
+      "type": "AC",
+      "price": 1000
+    },
+    {
+      "room_no": 102,
+      "type": "Non-AC",
+      "price": 400
+    }
+  ],
+  "cuisines": [
+    "Italian",
+    "Indian",
+    "Chinese",
+    "Punjabi"
+  ],
+  "likes": 100000
+},
+{
+  "_id": {
+    "$oid": "669f24f616efc73ff3a1448f"
+  },
+  "id": 2,
+  "name": "Paaji",
+  "type": "motel",
+  "rating": 2,
+  "address": {
+    "area": "Kothrud",
+    "city": "Pune",
+    "pincode": 411038
+  },
+  "rooms": [
+    {
+      "room_no": 1,
+      "type": "non-AC",
+      "price": 100
+    },
+    {
+      "room_no": 102,
+      "type": "Non-AC",
+      "price": 100
+    }
+  ],
+  "cuisines": [
+    "Indian",
+    "Punjabi"
+  ],
+  "likes": 10
+},
+{
+  "_id": {
+    "$oid": "669f257716efc73ff3a14490"
+  },
+  "id": 3,
+  "name": "Jagdeep",
+  "type": "non-continental",
+  "rating": 4,
+  "address": {
+    "area": "Chembur",
+    "city": "Mumbai",
+    "pincode": 400012
+  },
+  "rooms": [
+    {
+      "room_no": 101,
+      "type": "AC deluxe",
+      "price": 800
+    },
+    {
+      "room_no": 102,
+      "type": "AC semi-deluxe",
+      "price": 500
+    }
+  ],
+  "cuisines": [
+    "Chinese",
+    "Fast food",
+    "Indian"
+  ],
+  "likes": 1000
+},
+{
+  "_id": {
+    "$oid": "669f2cb216efc73ff3a14491"
+  },
+  "id": 4,
+  "name": "Cooldude",
+  "type": "non-continental",
+  "rating": 2,
+  "address": {
+    "area": "Oga",
+    "city": "Goa",
+    "pincode": 420002
+  },
+  "rooms": [
+    {
+      "room_no": 101,
+      "type": "AC deluxe",
+      "price": 1800
+    },
+    {
+      "room_no": 102,
+      "type": "AC",
+      "price": 1200
+    }
+  ],
+  "cuisines": "Indian",
+  "likes": 10000
+}]

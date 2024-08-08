@@ -1,0 +1,8 @@
+1. binning using pandas cut method
+2. using user-defined fn
+
+Binary encoding
+One hot encoding
+Label
+Target
+Dummy
