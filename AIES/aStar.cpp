@@ -1,11 +1,15 @@
-#include <algorithm>
 #include <array>
 #include <iostream>
 #include <utility>
 #include <vector>
 
-int checkHamming(std::array<std::array<std::pair<int, bool>, 3>, 3> &mat,
-                 std::array<std::array<int, 3>, 3> &soln) {
+typedef std::array<std::array<std::pair<int, bool>, 3>, 3> inputMat;
+typedef std::array<std::array<int, 3>, 3> solnMat;
+
+// global solution matrix
+solnMat soln = {{{{1, 2, 3}}, {{8, 0, 4}}, {{7, 6, 5}}}};
+
+int calcHamming(inputMat &mat) {
   int hamming = 0;
 
   for (int i = 0; i < 3; i++) {
@@ -15,136 +19,138 @@ int checkHamming(std::array<std::array<std::pair<int, bool>, 3>, 3> &mat,
 
       if (mat[i][j].first != soln[i][j]) {
         hamming++;
+
         mat[i][j].second = false;
-      } else
-        mat[i][j].second = true;
+      }
     }
   }
 
   return hamming;
 }
 
-std::pair<int, int>
-findMinHamming(std::array<std::array<std::pair<int, bool>, 3>, 3> &mat,
-               std::array<std::array<int, 3>, 3> &soln) {
+std::pair<int, std::pair<int, int>> findMinHamming(inputMat mat) {
+  inputMat reset = mat;
 
-  std::array<std::array<std::pair<int, bool>, 3>, 3> tempMat = mat;
+  // find blank space pos
+  int blank_r = 0, blank_c = 0;
 
-  std::vector<int> newHammings;
-  std::pair<int, int> blankSpace;
-  int recentBuffer = -1;
-
-  // Find initial position of blank space
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (mat[i][j].first == 0)
-        blankSpace = std::make_pair(i, j);
+      if (mat[i][j].first == 0) {
+        blank_r = i;
+        blank_c = j;
+      }
     }
   }
 
-  int i = blankSpace.first, j = blankSpace.second;
+  std::vector<std::pair<int, std::pair<int, int>>> newHamming;
 
-  if ((i - 1) >= 0) {
-    if (tempMat[i - 1][j].second == false) {
-      std::swap(tempMat[i][j], tempMat[i - 1][j]);
-      newHammings.push_back(checkHamming(tempMat, soln));
-      tempMat = mat;
+  // check if going up, right, down, left is possible or not
+  if ((blank_r - 1) >= 0) {
+    if (mat[blank_r - 1][blank_c].second == false) {
+      std::swap(mat[blank_r][blank_c], mat[blank_r - 1][blank_c]);
+      newHamming.push_back(std::make_pair(
+          calcHamming(mat), std::make_pair(blank_r - 1, blank_c)));
+      mat = reset;
     }
   }
 
-  if ((j + 1) < 3) {
-    if (tempMat[i][j + 1].second == false) {
-      std::swap(tempMat[i][j], tempMat[i][j + 1]);
-      newHammings.push_back(checkHamming(tempMat, soln));
-      tempMat = mat;
+  if ((blank_c + 1) >= 0) {
+    if (mat[blank_r][blank_c + 1].second == false) {
+      std::swap(mat[blank_r][blank_c], mat[blank_r][blank_c + 1]);
+      newHamming.push_back(std::make_pair(
+          calcHamming(mat), std::make_pair(blank_r, blank_c + 1)));
+      mat = reset;
     }
   }
 
-  if ((i + 1) < 3) {
-    if (tempMat[i + 1][j].second == false) {
-      std::swap(tempMat[i][j], tempMat[i + 1][j]);
-      newHammings.push_back(checkHamming(tempMat, soln));
-      tempMat = mat;
+  if ((blank_r + 1) >= 0) {
+    if (mat[blank_r + 1][blank_c].second == false) {
+      std::swap(mat[blank_r][blank_c], mat[blank_r + 1][blank_c]);
+      newHamming.push_back(std::make_pair(
+          calcHamming(mat), std::make_pair(blank_r + 1, blank_c)));
+      mat = reset;
     }
   }
 
-  if ((j - 1) < 3) {
-    if (mat[i][j - 1].second == false) {
-      std::swap(tempMat[i][j], tempMat[i][j - 1]);
-      newHammings.push_back(checkHamming(tempMat, soln));
-      tempMat = mat;
+  if ((blank_c - 1) >= 0) {
+    if (mat[blank_r][blank_c - 1].second == false) {
+      std::swap(mat[blank_r][blank_c], mat[blank_r][blank_c - 1]);
+      newHamming.push_back(std::make_pair(
+          calcHamming(mat), std::make_pair(blank_r, blank_c - 1)));
+      mat = reset;
     }
   }
 
-  int minHamming = newHammings[0], hammingIndex = 0;
-  for (int i = 0; i < newHammings.size(); i++) {
-    if (minHamming < newHammings[i]) {
-      minHamming = newHammings[i];
-      hammingIndex = i;
+  // find min from vector
+  int minHamming = newHamming[0].first;
+  std::pair minHamCoord = newHamming[0].second;
+  for (auto it : newHamming) {
+    if (it.first < minHamming) {
+      minHamming = it.first;
+      minHamCoord = it.second;
     }
   }
 
-  mat = tempMat;
-
-  return std::make_pair(minHamming, hammingIndex);
+  return std::make_pair(minHamming, minHamCoord);
 }
 
-void aStar(std::array<std::array<std::pair<int, bool>, 3>, 3> mat,
-           std::array<std::array<int, 3>, 3> soln) {
+void aStar(inputMat &mat) {
+  inputMat reset = mat;
 
-  std::array<std::array<std::pair<int, bool>, 3>, 3> tempMat = mat;
+  int hamming = calcHamming(mat);
+  std::pair<int, std::pair<int, int>> nextSwap;
 
-  int hamming = checkHamming(mat, soln);
-  std::pair<int, int> newHamming;
-  int recentBuffer = -1;
+  // find blank space pos
+  int blank_r = 0, blank_c = 0;
 
-  // Start main loop
-  while (hamming > 0) {
-    std::cout << "Hamming = " << hamming << std::endl;
-
-    newHamming = findMinHamming(tempMat, soln);
-
-    hamming = newHamming.first;
-  } // end while
-
-  // print
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      std::cout << mat[i][j].first << " ";
+      if (mat[i][j].first == 0) {
+        blank_r = i;
+        blank_c = j;
+      }
     }
-    std::cout << '\n';
+  }
+
+  while (hamming > 0) {
+    nextSwap = findMinHamming(mat);
+
+    hamming = nextSwap.first;
+    int k = nextSwap.second.first, l = nextSwap.second.second;
+
+    std::swap(mat[blank_r][blank_c], mat[k][l]);
+    blank_r = k;
+    blank_c = l;
+  }
+
+  std::cout << "\nFinal:\n";
+  for (int a = 0; a < 3; a++) {
+    for (int b = 0; b < 3; b++) {
+      std::cout << mat[a][b].first << " ";
+    }
+    std::cout << std::endl;
   }
 }
 
 int main() {
-  std::array<std::array<std::pair<int, bool>, 3>, 3> mat{{
-      {{std::make_pair(2, true), std::make_pair(8, true),
-        std::make_pair(3, true)}},
-      {{std::make_pair(1, true), std::make_pair(6, true),
-        std::make_pair(4, true)}},
-      {{std::make_pair(0, true), std::make_pair(7, true),
-        std::make_pair(5, true)}},
-  }};
+  inputMat mat;
+  std::cout << "Enter input matrix:\n";
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      std::cin >> mat[i][j].first;
+      mat[i][j].second = true;
+    }
+  }
 
-  std::array<std::array<int, 3>, 3> soln{
-      {{{1, 2, 3}}, {{8, 0, 4}}, {{7, 6, 5}}}};
+  std::cout << "\nEnter solution matrix:\n";
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      std::cin >> soln[i][j];
+    }
+  }
 
-  // std::cout << "Enter matrix:\n";
-  // for (int i = 0; i < 3; i++) {
-  //   for (int j = 0; j < 3; j++) {
-  //     std::cin >> mat[i][j].first;
-  //     mat[i][j].second = true;
-  //   }
-  // }
-  //
-  // std::cout << "Enter solution:\n";
-  // for (int i = 0; i < 3; i++) {
-  //   for (int j = 0; j < 3; j++) {
-  //     std::cin >> soln[i][j];
-  //   }
-  // }
-
-  aStar(mat, soln);
+  aStar(mat);
 
   std::cout << std::endl;
   return 0;

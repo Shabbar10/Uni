@@ -1,0 +1,132 @@
+[{
+  "_id": {
+    "$oid": "66a3c482544b1b614566570d"
+  },
+  "title": "movie1",
+  "year": 2023,
+  "directors": [
+    {
+      "name": "David Sanjay",
+      "dob": {
+        "$date": {
+          "$numberLong": "-58320000000"
+        }
+      },
+      "address": "Mumbai, India",
+      "telNo": "7620600167"
+    },
+    {
+      "name": "Rohit Shetty",
+      "dob": {
+        "$date": "1974-11-02T00:00:00.000Z"
+      },
+      "address": "Gulumb, Maharashtra, India",
+      "telNo": "8976676896"
+    }
+  ],
+  "writers": [
+    {
+      "name": "Michael Straczynski",
+      "dob": {
+        "$date": {
+          "$numberLong": "-693273600000"
+        }
+      },
+      "address": "US",
+      "telNo": "7977939142"
+    },
+    {
+      "name": "Romita",
+      "dob": {
+        "$date": {
+          "$numberLong": "-499392000000"
+        }
+      },
+      "addresss": "Canada",
+      "telNo": "1234560321"
+    }
+  ],
+  "stars": [
+    {
+      "name": "Aamir",
+      "dob": {
+        "$date": "1973-10-24T00:00:00.000Z"
+      },
+      "address": "India",
+      "telNo": "8760547862"
+    },
+    {
+      "name": "SRK",
+      "dob": {
+        "$date": "1970-08-22T00:00:00.000Z"
+      },
+      "address": "India",
+      "telNo": "7429745921"
+    }
+  ],
+  "tags": [
+    "comedy",
+    "action"
+  ],
+  "likes": 100000
+},
+{
+  "_id": {
+    "$oid": "66a3c54a544b1b614566570e"
+  },
+  "title": "movie2",
+  "year": 2022,
+  "directors": [
+    {
+      "name": "Amul Cooldude",
+      "dob": {
+        "$date": "2008-02-26T00:00:00.000Z"
+      },
+      "address": "Udaipur",
+      "telNo": "8765408654"
+    },
+    {
+      "name": "Rohit Shetty",
+      "dob": {
+        "$date": "1974-11-02T00:00:00.000Z"
+      },
+      "address": "Gulumb, Maharashtra, India",
+      "telNo": "8976676896"
+    }
+  ],
+  "writers": [
+    {
+      "name": "Howard Mackie",
+      "dob": {
+        "$date": {
+          "$numberLong": "-693273600000"
+        }
+      },
+      "address": "US",
+      "telNo": "7977939142"
+    }
+  ],
+  "stars": [
+    {
+      "name": "Deepika",
+      "dob": {
+        "$date": "1973-10-24T00:00:00.000Z"
+      },
+      "address": "India",
+      "telNo": "8760547862"
+    },
+    {
+      "name": "SRK",
+      "dob": {
+        "$date": "1970-08-22T00:00:00.000Z"
+      },
+      "address": "India",
+      "telNo": "7429745921"
+    }
+  ],
+  "tags": [
+    "romance",
+    "action"
+  ],
+  "likes": 120000
+}]
