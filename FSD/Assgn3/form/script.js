@@ -1,0 +1,44 @@
+$(document).ready(function() { // Waits for everything to load
+  $('#myForm').on('submit', function(event) {
+    event.preventDefault();
+
+    let phone = $('#phone').val().trim();
+    let email = $('#email').val().trim();
+    let zipcode = $('#zipcode').val().trim();
+
+    let errors = [];
+
+    if (phone === '') {
+      errors.push('Phone number is required.');
+    }
+
+    if (email === '') {
+      errors.push('Email is required.');
+    }
+
+    if (zipcode === '') {
+      errors.push('Zip code is required.');
+    }
+
+    if (errors.length > 0) {
+      $('#result').html('<div id="error">' + errors.join('<br>') + '</div>');
+    } else {
+      $('#result').html('<div>Your form has been submitted successfully!</div>');
+      $.ajax({
+        url: '',
+        method: '',
+        data: {
+          phone: phone,
+          email: email,
+          zipcode: zipcode
+        },
+        success: function(response) {
+          $('#result').html('<div>Form submitted successfully!</div>');
+        },
+        error: function(error) {
+          $('#result').html('<div>An error occurred while submitting the form.</div>');
+        }
+      });
+    }
+  });
+});
