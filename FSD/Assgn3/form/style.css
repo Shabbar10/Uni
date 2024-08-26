@@ -1,6 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
+}
+
+.form-container {
+  border: 1px solid black;
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 20rem;
+  margin: auto;
 }
 
 label {
@@ -10,6 +24,36 @@ label {
 
 input {
   margin-bottom: 10px;
+  width: 70%;
+}
+
+select {
+  width: 70%;
+}
+
+small.invalid {
+  display: block;
+}
+
+small.valid {
+  display: block;
+}
+
+#show {
+  display: "none";
+}
+
+.invalid {
+  color: red;
+}
+
+.valid {
+  color: green;
+}
+
+.submit {
+  margin: auto;
+  padding: 0.5rem 1rem;
 }
 
 #error {
