@@ -11,6 +11,9 @@ const min = document.getElementById('min');
 const show = document.getElementById('show');
 const showPwd = document.getElementById('show-pwd');
 
+const confirmPwd = document.getElementById('confirm-pwd');
+const showConfirmPwd = document.getElementById('show-confirm-pwd');
+
 const age = document.getElementById('age');
 const phone = document.getElementById('phone');
 const zip = document.getElementById('zip');
@@ -63,6 +66,18 @@ pwd.onkeyup = function() {
   } else {
     min.classList.add('invalid');
     min.classList.remove('valid');
+  }
+}
+
+confirmPwd.onkeyup = function() {
+  if (confirmPwd.value === pwd.value) {
+    showConfirmPwd.classList.remove('no-match');
+    showConfirmPwd.classList.add('match');
+    showConfirmPwd.innerText = "Passwords match";
+  } else {
+    showConfirmPwd.classList.remove('match');
+    showConfirmPwd.classList.add('no-match');
+    showConfirmPwd.innerText = "Passwords do not match";
   }
 }
 
@@ -129,6 +144,10 @@ stateSelect.onchange = function() {
   const y = stateCity[this.value];
 
   for (i = 0; i < y.length; i++) {
-    citySelect.options[citySelect.options.length] = new Option(y[i], y[i]);
+    citySelect.options[i] = new Option(y[i], y[i]);
   }
+}
+
+function formValidation() {
+
 }

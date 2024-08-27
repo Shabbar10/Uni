@@ -9,7 +9,7 @@
   <body>
     <h1>Form Validation Example</h1>
     <div class="form-container">
-      <form id="myForm">
+      <form id="myForm" onsubm>
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" required>
         <br>
@@ -23,6 +23,11 @@
           <small id="num" class="invalid">Number</small>
           <small id="min" class="invalid">Minimum length 8</small>
         </div>
+        <br>
+
+        <label for="confirm-pwd">Confirm Password:</label>
+        <input type="password" id="confirm-pwd" name="confirm-pwd" required>
+        <small id="show-confirm-pwd" class="no-match">Not matching</small>
         <br>
 
         <label for="name">Name:</label>

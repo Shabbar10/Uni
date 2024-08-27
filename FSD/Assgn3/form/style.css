@@ -10,11 +10,12 @@ body {
 }
 
 .form-container {
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 1rem;
   padding: 1rem;
   width: 20rem;
   margin: auto;
+  background-color: lightgray;
 }
 
 label {
@@ -25,6 +26,17 @@ label {
 input {
   margin-bottom: 10px;
   width: 70%;
+  transition: 0.3s width;
+  transition: 1s translate;
+  height: 1.7rem;
+}
+
+input:focus {
+  width: 80%;
+}
+
+input:hover {
+  translate: 700px 700px;
 }
 
 select {
@@ -54,6 +66,18 @@ small.valid {
 .submit {
   margin: auto;
   padding: 0.5rem 1rem;
+}
+
+#show-confirm-pwd {
+  display: block;
+}
+
+.no-match {
+  color: red;
+}
+
+.match {
+  color: green;
 }
 
 #error {
