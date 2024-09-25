@@ -27,16 +27,11 @@ input {
   margin-bottom: 10px;
   width: 70%;
   transition: 0.3s width;
-  transition: 1s translate;
   height: 1.7rem;
 }
 
 input:focus {
   width: 80%;
-}
-
-input:hover {
-  translate: 700px 700px;
 }
 
 select {

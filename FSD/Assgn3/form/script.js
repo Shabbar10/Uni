@@ -1,3 +1,11 @@
+$("#hide").click(function(){
+  $("form").hide();
+});
+
+$("#show").click(function(){
+  $("form").show();
+}); 
+
 const form = document.getElementById('myForm');
 // form.reset();
 
