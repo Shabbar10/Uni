@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-In System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-200">
+
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Check-In System</h1>
+    
+    <!-- Check-in Form -->
+    <form id="checkin-form" class="mb-4">
+        <input id="name" type="text" placeholder="Enter name" class="border p-2 rounded-lg w-1/3" required />
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">Check In</button>
+    </form>
+
+    <!-- People List -->
+    <ul id="people-list" class="space-y-2">
+        <!-- List of people will be populated here dynamically -->
+    </ul>
+
+    <!-- Edit Form (Hidden by default) -->
+    <form id="edit-form" class="mt-6 hidden">
+        <input type="hidden" id="edit-id" />
+        <input type="text" id="edit-name" placeholder="Edit name" class="border p-2 rounded-lg w-1/3" required />
+        <button type="submit" class="bg-green-500 text-white p-2 rounded-lg">Update Name</button>
+        <button type="button" class="bg-gray-500 text-white p-2 rounded-lg" onclick="cancelEdit()">Cancel</button>
+    </form>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:3002/people';
+
+    // Load and display the list of people
+    function loadPeople() {
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(data => {
+                const peopleList = document.getElementById('people-list');
+                peopleList.innerHTML = '';  // Clear the list
+
+                data.forEach(person => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex justify-between items-center p-4 bg-gray-100 rounded-lg';
+
+                    listItem.innerHTML = `
+                        <span>${person.name} (${person.id})</span>  <!-- Display unique id -->
+                        <div>
+                            <button class="text-blue-500 mr-2" onclick="startEdit(${person.id}, '${person.name}')">Edit</button>
+                            <button class="text-red-500" onclick="checkout(${person.id})">Check Out</button>
+                        </div>
+                    `;
+                    peopleList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error("Error fetching people:", error));
+    }
+
+    // Handle check-in form submission
+    document.getElementById('checkin-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+
+        if (!name) {
+            alert("Please enter a name!");
+            return;
+        }
+
+        fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name })
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadPeople();
+            document.getElementById('checkin-form').reset();  // Clear the form
+        })
+        .catch(error => console.error("Error checking in:", error));
+    });
+
+    // Start editing a person (pre-fill form)
+    function startEdit(id, name) {
+        document.getElementById('edit-id').value = id;
+        document.getElementById('edit-name').value = name;
+        document.getElementById('edit-form').classList.remove('hidden');
+    }
+
+    // Handle edit form submission
+    document.getElementById('edit-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const id = document.getElementById('edit-id').value;
+        const newName = document.getElementById('edit-name').value;
+
+        if (!newName) {
+            alert("Please enter a new name!");
+            return;
+        }
+
+        fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: newName })
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadPeople();  // Refresh the list after editing
+            document.getElementById('edit-form').reset();  // Clear the edit form
+            document.getElementById('edit-form').classList.add('hidden');  // Hide the form
+        })
+        .catch(error => console.error("Error updating person:", error));
+    });
+
+    // Cancel the edit form
+    function cancelEdit() {
+        document.getElementById('edit-form').classList.add('hidden');
+        document.getElementById('edit-form').reset();
+    }
+
+    // Handle check-out (delete) request
+    function checkout(id) {
+        fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+            .then(() => loadPeople())  // Refresh the list after check-out
+            .catch(error => console.error("Error during check-out:", error));
+    }
+
+    // Initial load of people list
+    loadPeople();
+</script>
+
+</body>
+</html>

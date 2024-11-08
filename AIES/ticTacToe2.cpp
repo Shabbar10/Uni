@@ -21,7 +21,8 @@ void miniMax(matrix &gameBoard, char currentPlayer) {
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       if (gameBoard[i][j] == '\0') {
-        gameBoard[i][j] = currentPlayer; // Apply move X or O
+        gameBoard[i][j] = currentPlayer;
+        // Whomever's turn it is, call the opposing function
         int moveValue =
             (currentPlayer == 'X') ? minValue(gameBoard) : maxValue(gameBoard);
         gameBoard[i][j] = '\0'; // Reset
